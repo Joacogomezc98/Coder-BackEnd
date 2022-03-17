@@ -50,8 +50,8 @@ router.get('/:id', (req,res) => {
 router.post('/' ,(req, res) => {
     const newProduct = req.body
 
-    productList.saveProduct(newProduct)
-    res.send("Succesful post!")
+    const savedProduct = productList.saveProduct(newProduct)
+    res.send(savedProduct)
 })
 
 // RECIBE Y ACTUALIZA UN PRODUCTO SEGUN SU ID
@@ -81,9 +81,15 @@ router.delete('/:id', (req, res) => {
     }
     const id = parseInt(req.params.id)
 
-    productList.deleteProd(id)
-    res.send("The product has been deleted")
+    const deletedProd = productList.deleteProd(id)
 
+    if(deletedProd){
+        res.send("The product has been deleted")
+    }else{
+        res.send("Sorry, product was not found!")
+    }
+
+    
 })
 
 

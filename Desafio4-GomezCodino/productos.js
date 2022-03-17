@@ -46,22 +46,26 @@ class Productos {
         newProduct.id = this.productos[this.productos.length - 1].id + 1;
     }
     this.productos.push(newProduct)
+    return newProduct
   }
 
   modifyProduct(modProduct,id){
     const index = this.productos.findIndex(products => products.id === id)
 
     this.productos[index] = modProduct
+    // TODO validar los campos del producto editado
   }
 
   deleteProd(id){
-      
+    let deletedProd = false
     for (let i = 0; i < this.productos.length; i++) {
         if (this.productos[i].id == id) {
             this.productos.splice(i, 1);
+            deletedProd = true
             break;
         }
     }
+    return deletedProd
   }
     
 }
