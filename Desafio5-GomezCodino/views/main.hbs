@@ -1,0 +1,29 @@
+<table>
+    <thead>
+        <tr>
+            <th scope=" "col>Id</th>
+            <th scope=" "col>Title</th>
+            <th scope=" "col>Price</th>
+            <th scope=" "col>Thumbnail</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#if products}}
+         <tr>
+                <td colspan="4">No hay datos</td>
+            </tr>
+        {{/if}}
+        {{#each data}}
+            <tr>
+                <th>{{this.id}}</th>
+                <th>{{this.title}}</th>
+                <th>$ {{this.price}}</th>
+                <th><img src={{this.thumbnail}}></th>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+<br>
+<a href="/">
+    <button>Ir al formulario</button>
+</a>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Nuevo Producto</h1>
+        <form action="/productos" method="POST" target="_blank">
+            <label for="nombre">Title</label>
+            <input type="text" name="title" id="title"/>
+            <label for="edad">Price</label>
+            <input type="text" name="price" id="price"/>
+            <label for="raza">Image URL</label>
+            <input type="text" name="thumbnail" id="thumbnail"/>
+            <button type="submit" value="Enviar">Agregar</button>
+        </form>
+        <br>
+        <div>
+            <a href="/productos">
+                <button>Go to products</button>
+            </a>
+        </div>
+    </body>
+</html>
