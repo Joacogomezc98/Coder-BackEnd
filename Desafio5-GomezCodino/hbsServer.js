@@ -32,7 +32,7 @@ app.get("/productos", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.render("form")
+    res.sendFile(__dirname + '/views/form.html')
 })
 
 app.post("/productos", (req, res) => {

@@ -1,0 +1,2 @@
+Para mi proyecto prefiero utilizar el motor de plantillas handlebars debido a que su sintaxis es basicamente HTML
+e inserta los valores con doble llave, similar a lo que se hace en react lo cual estoy muy familiarizado.
