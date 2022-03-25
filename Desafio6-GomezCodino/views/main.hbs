@@ -1,0 +1,49 @@
+     <h1>Nuevo Producto</h1>
+        <form onsubmit="addProduct()">
+            <label for="nombre">Title</label>
+            <input type="text" id="title"/>
+            <label for="edad">Price</label>
+            <input type="text" id="price"/>
+            <label for="raza">Image URL</label>
+            <input type="text" id="thumbnail"/>
+            <button type="submit" value="Enviar">Agregar</button>
+        </form>
+        <br>
+        <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th scope=" "col>Id</th>
+                    <th scope=" "col>Title</th>
+                    <th scope=" "col>Price</th>
+                    <th scope=" "col>Thumbnail</th>
+                </tr>
+            </thead>
+            <tbody id="product-table-body">
+                {{#if products}}
+                 <tr>
+                        <td colspan="4">No hay datos</td>
+                    </tr>
+                {{/if}}
+                {{#each data}}
+                    <tr>
+                        <th>{{this.id}}</th>
+                        <th>{{this.title}}</th>
+                        <th>$ {{this.price}}</th>
+                        <th><img src={{this.thumbnail}}></th>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <br>
+        
+        <h1>Chat Section</h1>
+        <form onsubmit="addMessage()">
+            <input type="text" id="mail" placeholder="Your mail" required>
+            <input type="text" id="text" placeholder="Write your message here">
+            <input type="submit" id="submit" value="Enviar">
+        </form>
+        <br>
+        <div id="messages"></div>
