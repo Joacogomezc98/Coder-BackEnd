@@ -58,11 +58,11 @@ productRouter.get('/:id', (req, res) => {
 productRouter.post('/', (req, res) => {
     const newProduct = req.body
 
-    // const administrador = newProduct.admin
+    const administrador = newProduct.admin
 
-    // if (!administrador) {
-    //     res.send({ error: "Request not authorized" })
-    // }
+    if (!administrador) {
+        res.send({ error: "Request not authorized" })
+    }
 
     productList.saveProduct(newProduct)
         .then(saveProduct => res.send(saveProduct))
@@ -74,11 +74,11 @@ productRouter.put('/:id', (req, res) => {
 
     const modProduct = req.body
 
-    // const administrador = modProduct.admin
+    const administrador = modProduct.admin
 
-    // if (!administrador) {
-    //     res.send({ error: "Request not authorized" })
-    // }
+    if (!administrador) {
+        res.send({ error: "Request not authorized" })
+    }
 
     if (isNaN(req.params.id)) {
         res.send({ error: "ID is not a number" })
@@ -96,11 +96,11 @@ productRouter.put('/:id', (req, res) => {
 // ELIMINA UN PRODUCTO SEGUN SU ID
 productRouter.delete('/:id', (req, res) => {
 
-    // const administrador = req.body.admin
+    const administrador = req.body.admin
 
-    // if (!administrador) {
-    //     res.send({ error: "Request not authorized" })
-    // }
+    if (!administrador) {
+        res.send({ error: "Request not authorized" })
+    }
 
     if (isNaN(req.params.id)) {
         res.send({ error: "ID is not a number" })
@@ -244,10 +244,6 @@ cartRouter.delete("/:id/productos/:id_prod", (req, res) => {
                 res.send({ error: "Cart not found" })
             }
         })
-
-
-
-
 
 })
 
