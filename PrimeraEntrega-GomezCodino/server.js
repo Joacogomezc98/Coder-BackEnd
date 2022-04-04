@@ -257,6 +257,12 @@ app.use('/api/productos', productRouter)
 
 app.use('/api/carrito', cartRouter)
 
+app.get('*', (req,res) => {
+    res.send({
+        error: "Route not implemented"
+    })
+})
+
 const PORT = process.env.PORT || 8080
 
 const server = app.listen(PORT, () => {
