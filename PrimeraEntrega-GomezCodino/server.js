@@ -1,7 +1,7 @@
 const express = require("express")
 const { Router } = express
-const productos = require("./productos")
-const carrito = require("./carrito")
+const productos = require("./containers/productos")
+const carrito = require("./containers/carrito")
 
 
 const app = express()
@@ -62,10 +62,12 @@ productRouter.post('/', (req, res) => {
 
     if (!administrador) {
         res.send({ error: "Request not authorized" })
+    } else {
+        productList.saveProduct(newProduct)
+            .then(saveProduct => res.send(saveProduct))
+
     }
 
-    productList.saveProduct(newProduct)
-        .then(saveProduct => res.send(saveProduct))
 
 })
 
@@ -78,18 +80,19 @@ productRouter.put('/:id', (req, res) => {
 
     if (!administrador) {
         res.send({ error: "Request not authorized" })
+
+    } else {
+
+        if (isNaN(req.params.id)) {
+            res.send({ error: "ID is not a number" })
+            return
+        }
+        const id = parseInt(req.params.id)
+
+        productList.modifyProduct(modProduct, id)
+            .then(() => res.send("The product has been edited successfully"))
+
     }
-
-    if (isNaN(req.params.id)) {
-        res.send({ error: "ID is not a number" })
-        return
-    }
-    const id = parseInt(req.params.id)
-
-    productList.modifyProduct(modProduct, id)
-        .then(data => res.send("The product has been edited successfully"))
-
-
 
 })
 
@@ -100,23 +103,25 @@ productRouter.delete('/:id', (req, res) => {
 
     if (!administrador) {
         res.send({ error: "Request not authorized" })
+    } else {
+
+        if (isNaN(req.params.id)) {
+            res.send({ error: "ID is not a number" })
+            return
+        }
+        const id = parseInt(req.params.id)
+
+        productList.deleteProd(id)
+            .then(deletedProd => {
+                if (deletedProd) {
+                    res.send("The product has been deleted")
+                } else {
+                    res.send("Sorry, product was not found!")
+                }
+
+            })
+
     }
-
-    if (isNaN(req.params.id)) {
-        res.send({ error: "ID is not a number" })
-        return
-    }
-    const id = parseInt(req.params.id)
-
-    productList.deleteProd(id)
-        .then(deletedProd => {
-            if (deletedProd) {
-                res.send("The product has been deleted")
-            } else {
-                res.send("Sorry, product was not found!")
-            }
-
-        })
 
 })
 
@@ -257,7 +262,7 @@ app.use('/api/productos', productRouter)
 
 app.use('/api/carrito', cartRouter)
 
-app.get('*', (req,res) => {
+app.get('*', (req, res) => {
     res.send({
         error: "Route not implemented"
     })

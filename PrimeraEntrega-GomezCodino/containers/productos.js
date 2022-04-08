@@ -79,10 +79,6 @@ class Productos {
   }
 
   async modifyProduct(modProduct, id) {
-    // modProduct.timestamp = Date.now()
-    // const index = this.productos.findIndex(products => products.id === id)
-
-    // this.productos[index] = modProduct
 
     let file;
     try {
@@ -92,13 +88,11 @@ class Productos {
     }
 
     const productList = JSON.parse(file);
+    const index = productList.findIndex(products => products.id === id);
 
-    const index = productList.findIndex(products => products.id === id)
-    console.log(index)
-
-    modProduct.timestamp = Date.now()
-
-    productList[index - 1] = modProduct
+    modProduct.timestamp = Date.now();
+    modProduct.id = id;
+    productList[index] = modProduct;
 
     try {
       fs.promises.writeFile(this.productos, JSON.stringify(productList, null, 2))
