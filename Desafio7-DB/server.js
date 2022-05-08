@@ -79,7 +79,8 @@ io.on("connection", (socket) => {
 
 
     socket.on('new-message', data => {
-        data.time = moment().format("DD/MM/YYYY HH:mm:ss")
+        data.timestamp = moment().format("DD/MM/YYYY HH:mm:ss")
+        console.log(data)
         messages.saveMessage(data)
         .then((mensajes) => io.sockets.emit('messages', mensajes))
     })
