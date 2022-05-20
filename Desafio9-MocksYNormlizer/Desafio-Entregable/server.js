@@ -3,7 +3,6 @@ const moment = require("moment")
 const handlebars = require("express-handlebars")
 const productosDB = require("./containers/productosDB")
 const { mariaDB } = require("./options/mariaDB");
-// const { sqlite } = require("./options/SQLite3") 
 const messagesMongoDb = require("./containers/messagesMongoDb");
 const messagesSchema = require("./schemas/messagesSchema");
 
@@ -70,7 +69,6 @@ app.get("/:id", (req, res) => {
 // SOCKET
 const messages = new messagesMongoDb.MessagesMongoDb("messages", messagesSchema.messagesSchema)
 
-// messages.createDB()
 
 const { Server: HttpServer } = require("http")
 const { Server: IOServer } = require("socket.io")
