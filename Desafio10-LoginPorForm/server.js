@@ -39,7 +39,8 @@ const auth = (req, res, next) => {
     if (req.session.user) {
         return next()
     }
-    return res.status(401).send("error de loggeo!")
+    res.redirect('http://localhost:3000/login')
+
 }
 
 app.get("/login", (req, res) => {
