@@ -50,7 +50,6 @@ passport.deserializeUser((nombre, done) => {
     usuariosDB.getByName(nombre)
         .then((data) => done(null, data));
 
-    // done(null, usuario);
 });
 
 // -----------------------------------------------------------------------------
@@ -84,13 +83,6 @@ app.use(passport.session())
 
 // AUTH METHODS ---------------------------------------------------------
 
-// const auth = (req, res, next) => {
-//     if (req.session.user) {
-//         return next()
-//     }
-//     res.redirect('http://localhost:3000/login')
-
-// }
 
 const createHash = async (password) => {
     const saltRouds = 10
@@ -125,11 +117,6 @@ app.get("/login", (req, res) => {
     res.render('login')
 })
 
-// app.post('/login', (req, res) => {
-//     const username = req.body.user
-//     req.session.user = username
-//     res.redirect('http://localhost:3000')
-// })
 
 app.post('/login', passport.authenticate('local',
     {
