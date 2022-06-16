@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="/socket.io/socket.io.js"></script>
+        <title>Product Page</title>
+    </head>
+    <body>
+        {{{ body }}}
+        <script>
+            if (
+                window.location.href === `http://${
+                    window.location.hostname
+                }${
+                    window.location.port ? ':' + window.location.port : ''
+                }/logout`
+            ) {
+                setTimeout(() => {
+                    window.location.href = `http://${
+                        window.location.hostname
+                    }${
+                        window.location.port ? ':' + window.location.port : ''
+                    }/login`
+                }, 2000)
+            }
+        </script>
+    </body>
+    <script>
+        const socket = io.connect()
+
+        socket.on("products", products => {
+            productList(products)
+        })
+
+        const productList = (products) => {
+            console.log("okaskfsa")
+            const html = products.map((element) => {
+                return(` <tr>
+                        <th>${
+                    element.id
+                }</th>
+                        <th>${
+                    element.title
+                }</th>
+                        <th>$ ${
+                    element.price
+                }</th>
+                        <th><img src=${
+                    element.thumbnail
+                }></th>
+                    </tr>`)
+            })
+
+            document.getElementById("product-table-body").innerHTML = html
+        }
+
+        const addProduct = () => {
+            const newProd = {
+                title: document.getElementById("title").value,
+                price: document.getElementById("price").value,
+                thumbnail: document.getElementById("thumbnail").value
+            }
+            socket.emit('new-product', newProd);
+            return false
+        }
+
+        const render = (data) => {
+            const html = data.map((elem) => {
+                return(`<div>
+            <strong>${
+                    elem.author.id
+                }</strong>
+            <em>${
+                    elem.timestamp
+                } - </em>
+            <em>${
+                    elem.text
+                }</em>
+            <img src="${
+                    elem.author.avatar
+                }" />
+        </div>`)
+            }).join(" ");
+            document.getElementById("messages").innerHTML = html
+        } socket.on("messages", data => {
+            render(data)
+        })
+
+        const addMessage = () => {
+            const mensaje = {
+                author: {
+                    id: document.getElementById("mail").value,
+                    nombre: document.getElementById("name").value,
+                    apellido: document.getElementById("surname").value,
+                    edad: document.getElementById("age").value,
+                    alias: document.getElementById("alias").value,
+                    avatar: document.getElementById("avatar").value
+                },
+                text: document.getElementById("text").value
+            }
+            socket.emit('new-message', mensaje);
+            return false
+        }
+    </script>
+</html>
