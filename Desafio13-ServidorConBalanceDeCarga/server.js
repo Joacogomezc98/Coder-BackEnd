@@ -16,7 +16,7 @@ const usersMongoDB = require('./containers/usersMongoDB')
 const userSchema = require('./schemas/userSchema')
 const parseArgs = require('minimist')
 const dotenv = require('dotenv').config()
-const {fork} = require('child_process')
+const { fork } = require('child_process')
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length
 const http = require('http')
@@ -28,7 +28,7 @@ const app = express()
 
 const usuariosDB = new usersMongoDB.UsersMongoDB("users", userSchema.userSchema)
 
-let minimistOptions = {alias: {p: 'port', m: 'mode'}}
+let minimistOptions = { alias: { p: 'port', m: 'mode' } }
 
 //MIDDLEWARES ----------------------------------------------------------------------
 passport.use(new LocalStrategy(
@@ -184,48 +184,48 @@ app.set("view engine", "hbs")
 app.set("views", "./views")
 
 // TODO: Descomentar para proximos desafios, se comenta para impedir multiples creaciones de db en clusters
-// productList.createDB()
-//     .then(() => productList.insertProducts())
+productList.createDB()
+    .then(() => productList.insertProducts())
 
 app.get("/", isAuth, (req, res) => {
-    // const productos = productList.getAll()
-    // productos.then(data => {
-    //     let noProducts = true
-    //     if (data.length != 0) {
-    //         noProducts = false
-    //     }
+    const productos = productList.getAll()
+    productos.then(data => {
+        let noProducts = true
+        if (data.length != 0) {
+            noProducts = false
+        }
         res.render("main", { data: data, products: noProducts, user: req.user.username })
     })
 
 
-// });
+});
 
 // // DATOS DEMO DESDE FAKER
-// app.get('/api/productos-test', (req, res) => {
-//     const sampleProducts = productList.getSample()
-//     sampleProducts.then(data => {
-//         let noProducts = true
-//         if (data.length != 0) {
-//             noProducts = false
-//         }
-//         res.render("main", { data: data, products: noProducts })
-//     })
-// })
+app.get('/api/productos-test', (req, res) => {
+    const sampleProducts = productList.getSample()
+    sampleProducts.then(data => {
+        let noProducts = true
+        if (data.length != 0) {
+            noProducts = false
+        }
+        res.render("main", { data: data, products: noProducts })
+    })
+})
 
-// app.get("/:id", (req, res) => {
+app.get("/:id", (req, res) => {
 
-//     const id = req.params.id
+    const id = req.params.id
 
-//     const productos = productList.getById(id)
-//     productos.then(data => {
-//         let noProducts = true
-//         if (data.length != 0) {
-//             noProducts = false
-//         }
-//         res.render("main", { data: data, products: noProducts })
-//     })
+    const productos = productList.getById(id)
+    productos.then(data => {
+        let noProducts = true
+        if (data.length != 0) {
+            noProducts = false
+        }
+        res.render("main", { data: data, products: noProducts })
+    })
 
-// });
+});
 // PROCESS AND CHILD ----------------------------------------------------------------------
 app.get('/api/info', (req, res) => {
     let entryArgs = process.argv.join(',')
@@ -238,7 +238,7 @@ app.get('/api/info', (req, res) => {
     let CPUs = numCPUs
 
 
-    res.render('info',{args: entryArgs, name: platformName, node: nodeVersion, memory: memory, path: execPath, processId: processId, folder: proyectFolder, cpus: CPUs  })
+    res.render('info', { args: entryArgs, name: platformName, node: nodeVersion, memory: memory, path: execPath, processId: processId, folder: proyectFolder, cpus: CPUs })
 })
 
 app.get('/api/randoms', (req, res) => {
@@ -266,10 +266,10 @@ const io = new IOServer(httpServer)
 io.on("connection", (socket) => {
     console.log("Nuevo cliente conectado")
 
-    // socket.on('new-product', data => {
-    //     productList.saveProduct(data)
-    //     io.sockets.emit("products", productList)
-    // })
+    socket.on('new-product', data => {
+        productList.saveProduct(data)
+        io.sockets.emit("products", productList)
+    })
 
     //CHAT SECTION
 
@@ -293,22 +293,18 @@ const PORT = parseArgs(process.argv.slice(2), minimistOptions).port || 8080
 
 const MODE = parseArgs(process.argv.slice(2), minimistOptions).mode || 'FORK'
 
-if(MODE === 'CLUSTER'){
+if (MODE === 'CLUSTER' && cluster.isMaster) {
 
-    if(cluster.isMaster) {
-        console.log(`Master ${process.pid} is running`);
-    
-        for(let i=0; i< numCPUs; i++){
-            cluster.fork()
-        }
-        cluster.on('listening', (worker, address) => {
-            console.log(
-                `Worker ${worker.process.pid} is listening in port ${address.port}`
-            );
-        });
-    } else {
-        http.createServer().listen(PORT)
+    console.log(`Master ${process.pid} is running`);
+
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork()
     }
+    cluster.on('listening', (worker, address) => {
+        console.log(
+            `Worker ${worker.process.pid} is listening in port ${address.port}`
+        );
+    });
 
 } else {
     httpServer.listen(PORT, console.log(`Server listenting on PORT: ${PORT}`))
