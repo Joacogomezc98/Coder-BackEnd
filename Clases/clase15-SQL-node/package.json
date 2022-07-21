@@ -1,0 +1,16 @@
+{
+  "name": "clase15-SQL-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create-table.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "knex": "^1.0.5",
+    "mysql": "^2.18.1"
+  }
+}
