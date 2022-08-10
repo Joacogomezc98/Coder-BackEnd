@@ -1,0 +1,24 @@
+{
+  "name": "Mocks-ej1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --inspect src/server.js",
+    "serverFaker": "nodemon --inspect src/serverFaker.js",
+    "server2Faker": "nodemon --inspect src/server2.js"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^6.2.0",
+    "eslint": "^8.14.0"
+  }
+}
